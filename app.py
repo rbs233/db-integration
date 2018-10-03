@@ -43,12 +43,12 @@ def listusers():
 @app.cli.command()
 def initdb():
     ### If database exists, drop it
-    if database_exists(settings.SQLALCHEMY_DATABASE_URI):
-        drop_database(settings.SQLALCHEMY_DATABASE_URI)
+    if database_exists(os.getenv('DATABASE_URL')):
+        drop_database(os.getenv('DATABASE_URL'))
         click.echo('existing database dropped')
 
     ### create database and table
-    create_database(settings.SQLALCHEMY_DATABASE_URI)
+    create_database(os.getenv('DATABASE_URL'))
     db.create_all()
     click.echo("database initialized")
 
