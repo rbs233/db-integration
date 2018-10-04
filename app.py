@@ -5,7 +5,7 @@ import settings
 import os
 import click
 from flask.cli import with_appcontext
-##TODO: Add sqlachemy commands to initialize database (delete if exists and tthen create)
+
 app = Flask(__name__)
 app.config.from_mapping(
         SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL'),
