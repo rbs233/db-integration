@@ -6,9 +6,10 @@ import os
 import click
 from flask.cli import with_appcontext
 
+DATABASE_URL = os.getenv('DATABASE_URL') + '/hello_world' 
 app = Flask(__name__)
 app.config.from_mapping(
-        SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL'),
+        SQLALCHEMY_DATABASE_URI = DATABASE_URL,
         SQLALCHEMY_TRACK_MODIFICATIONS = False
         )
 db = SQLAlchemy(app)
@@ -43,12 +44,12 @@ def listusers():
 @app.cli.command()
 def initdb():
     ### If database exists, drop it
-    if database_exists(os.getenv('DATABASE_URL')):
-        drop_database(os.getenv('DATABASE_URL'))
+    if database_exists(DATABASE_URL):
+        drop_database(DATABASE_URL)
         click.echo('existing database dropped')
 
     ### create database and table
-    create_database(os.getenv('DATABASE_URL'))
+    create_database(DATABASE_URL)
     db.create_all()
     click.echo("database initialized")
 
