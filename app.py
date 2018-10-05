@@ -6,7 +6,7 @@ import os
 import click
 from flask.cli import with_appcontext
 
-DATABASE_URL = os.getenv('DATABASE_URL') + '/hello_world' 
+DATABASE_URL = os.getenv('DATABASE_URL', "postgresql://localhost/hello_world")
 app = Flask(__name__)
 app.config.from_mapping(
         SQLALCHEMY_DATABASE_URI = DATABASE_URL,
@@ -43,13 +43,7 @@ def listusers():
 
 @app.cli.command()
 def initdb():
-    ### If database exists, drop it
-    if database_exists(DATABASE_URL):
-        drop_database(DATABASE_URL)
-        click.echo('existing database dropped')
-
-    ### create database and table
-    create_database(DATABASE_URL)
+    db.drop_all()
     db.create_all()
     click.echo("database initialized")
 
